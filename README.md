@@ -9,20 +9,20 @@ The goal of this project was to build a small Library application using JavaScri
 - Add new books to the library
 - Display books in a table
 - Store books as JavaScript objects in an array
-- Generate a unique ID for each book using crypto.randomUUID()
+- Generate a unique ID for each book using `crypto.randomUUID()`
 - Delete books from the library
 - Toggle a book's read status
-- Use a <dialog> element for the "Add New Book" form 
+- Use a `<dialog>` element for the "Add New Book" form 
 - Validate required form fields
 - Dynamically create book elements using JavaScript
-- Associate DOM elements with book objects using data-* attributes
+- Associate DOM elements with book objects using `data-*` attributes
 - Use event delegation to handle dynamically created buttons
 
 ## Technologies Used
 
 - HTML5
 - CSS3
-- JavaScripts (ES6+)
+- JavaScript (ES6+)
 - DOM API
 
 ## What I Practiced
@@ -30,30 +30,30 @@ The goal of this project was to build a small Library application using JavaScri
 ### JavaScript
 
 - Constructor functions
-- new and new.target
+- `new` and `new.target`
 - Object properties
 - Prototypes and prototype methods
 - Arrays
-- find()
-- findIndex()
-- splice()
+- `find()`
+- `findIndex()`
+- `splice()`
 - Template literals
 - Ternary operators
 - Event listeners
 - Event delegation
-- dataset
-- createElement()
-- textContent
-- append() / appendChild()
-- crypto.randomUUID()
+- `dataset`
+- `createElement()`
+- `textContent`
+- `append() / appendChild()`
+- `crypto.randomUUID()`
 
 ### HTML
 
 - Semantic table structure
 - Forms
 - Form validation
-- <dialog>
-- data-* attributes
+- `<dialog>`
+- `data-*` attributes
 
 ### CSS
 
@@ -69,13 +69,15 @@ The goal of this project was to build a small Library application using JavaScri
 
 Each book is represented by a book object:
 
-```function Book(author, title, pages) {
+```javascript
+function Book(author, title, pages) {
     this.id = crypto.randomUUID();
     this.author = author;
     this.title = title;
     this.pages = pages;
     this.read = false;
-  }```
+  }
+```  
 
 Books are stored in the myLibrary array:
 
@@ -83,18 +85,22 @@ Books are stored in the myLibrary array:
 
 A separate function creates a book and adds it to the array:
 
-```function addBookToLibrary(author, title, pages) {
+```javascript
+function addBookToLibrary(author, title, pages) {
     const book = new Book(author, title, pages);
     myLibrary.push(book);
-  }```
+  }
+```
 
 The read status is changed using prototype method:
 
-```Book.prototype.toggleRead = function() {
+```javascript
+Book.prototype.toggleRead = function() {
     this.read = !this.read;
-  };```
+  };
+```
 
-The DOM is generated from the data stored in the library. Each table row receives the corresponding book's unique ID through a data-* attribute:
+The DOM is generated from the data stored in the library. Each table row receives the corresponding book's unique ID through a `data-*` attribute:
 
 `<tr data-book-id="...">`
 
@@ -102,12 +108,14 @@ This allows the application to identify the correct book when the user clicks **
 
 ## Project Structure
 
+```text
 library/
-|-- index.html
-|-- library-app-screenshot.png
-|-- README.md
-|-- script.js
-|-- style.css
+├── index.html
+├── library-app-screenshot.png
+├── README.md
+├── script.js
+└── style.css
+```
 
 ## Screenshots
 
@@ -116,8 +124,6 @@ library/
 ## Live Demo 
 [Live Demo](https://aliousang.github.io/library-app/)
 
-## Project
+## Acknowledgments
 
-This project was completed as part of **The Odin Project-JavaScript Curriculum**.
-
-[The Odin Project](https://www.theodinproject.com/)
+Built as part of [The Odin Project JavaScript Curriculum.](https://www.theodinproject.com/)
