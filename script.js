@@ -1,21 +1,21 @@
 const myLibrary = [];
 
 const tbody = document.querySelector("tbody");
-const submitBtn = document.querySelector(".submit-btn");
+const form = document.querySelector("form");
+const dialog = document.querySelector("#dialog");
 
-function Book(author, title, pages) {
-  if(!new.target) {
-    throw new Error('You must use the "new" operator to call the constructor');
+class Book {
+  constructor(author, title, pages) {
+    this.id = crypto.randomUUID();
+    this.author = author;
+    this.title = title;
+    this.pages = pages;
+    this.read = false;
   }
-  this.id = crypto.randomUUID();
-  this.author = author;
-  this.title = title;
-  this.pages = pages;
-  this.read = false;
-}
 
-Book.prototype.toggleRead = function() {
-  this.read = !this.read;
+  toggleRead() {
+    this.read = !this.read;
+  }
 }
 
 function addBookToLibrary(author, title, pages) {
@@ -68,52 +68,52 @@ function createCell(text) {
   return cell;
 }
 
-submitBtn.addEventListener("click", (event) => {
+form.addEventListener("submit", (event) => {
   event.preventDefault();
   const author = document.querySelector("#author");
   const title = document.querySelector("#title");
   const pages = document.querySelector("#pages");
-  if (author.value && title.value && pages.value) {
-    addBookToLibrary(author.value, title.value, Number(pages.value));
-  } else {
-    alert("You must fill all the required (*) fields to continue!");
-  } 
 
-  author.value = "";
-  title.value = "";
-  pages.value = "";
+  addBookToLibrary(
+    author.value.trim(),
+    title.value.trim(),
+    Number(pages.value)
+  );
+
+  renderBooks(myLibrary);
+
+  form.reset();
+  dialog.close();
 });
 
 tbody.addEventListener("click", (event) => {
-  const btn = event.target;
-  if (btn.classList.contains("read-btn")) {
-    const row = btn.closest("tr");
-    const id = row.dataset.bookId;
-    const book = myLibrary.find(book => book.id === id);
-    book.toggleRead();
+  const btn = event.target.closest("button");
+
+  if (!btn || !tbody.contains(btn)) {
+    return;
   }
 
-  if (btn.classList.contains("del-btn")) {
-    const row = btn.closest("tr");
-    const id = row.dataset.bookId;
-    const idx = myLibrary.findIndex(book => book.id === id);
-    myLibrary.splice(idx, 1);
+  const row = btn.closest("tr");
+  const id = row.dataset.bookId;
+  const book = myLibrary.find(book => book.id === id);
+
+  if (!book) {
+    return;
   }
+
+  if (btn.classList.contains("read-btn")) {
+    book.toggleRead();
+  } else if (btn.classList.contains("del-btn")) {
+    const index = myLibrary.findIndex(book => book.id === id);
+    myLibrary.splice(index, 1);
+  } else {
+    return;
+  }
+
   renderBooks(myLibrary);
 });
 
-addBookToLibrary("George Orwell", "1984", 328);
-addBookToLibrary("Gabriel García Márquez", "One Hundred Years of Solitude", 417);
-addBookToLibrary("Frank Herbert", "Dune", 658);
-addBookToLibrary("Jane Austen", "Pride and Prejudice", 279);
-/* 
 
-  Author: Walter Isaacson
 
-  Title: Steve Jobs
-  
-  Pages: 656
-*/
 
-renderBooks(myLibrary);
 
